@@ -1,0 +1,49 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "urban_mobility_db";
+
+// Create connection
+ $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+include(database.php);
+// Process Home Section (Registration)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['home_submit'])) {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $email = $_POST["email"];
+
+    $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
+
+            echo "Registration successful!";
+}
+    
+
+// Process Parking Spaces Section
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['parking_submit'])) {
+    $space_id = $_POST["space_id"];
+    $is_available = $_POST["is_available"];
+
+    $sql = "INSERT INTO parking_spaces (space_id, is_available) VALUES ('$space_id', '$is_available')";
+
+        echo "Parking space data submitted successfully!";
+   
+}
+
+// Process Traffic Data Section
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['traffic_submit'])) {
+    $location = $_POST["location"];
+    $traffic_intensity = $_POST["traffic_intensity"];
+
+    $sql = "INSERT INTO traffic_data (location, traffic_intensity) VALUES ('$location', '$traffic_intensity')";
+
+        echo "Traffic data submitted successfully!";
+    
+}
+?>
